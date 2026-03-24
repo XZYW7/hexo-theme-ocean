@@ -338,12 +338,7 @@
       mat3 cam = setCamera(u_cameraPos, u_cameraTarget);
       vec3 rd = cam * normalize(vec3(uv, 1.5));
 
-      Ray ray;
-      ray.origin = u_cameraPos;
-      ray.direction = rd;
-
-      vec3 col = trace(ray);
-      gl_FragColor = vec4(col, 1.0);
+      gl_FragColor = vec4(rd * 0.5 + 0.5, 1.0);
     }
   `;
 
