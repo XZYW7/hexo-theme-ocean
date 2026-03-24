@@ -306,18 +306,46 @@
     }
 
     vec3 trace(Ray ray) {
-      vec3 color = vec3(0);
-      vec3 throughput = vec3(1);
+      Hit hit = intersectScene(ray);
 
-      for (int bounce = 0; bounce < 6; bounce++) {
-        if (bounce >= u_maxBounces) break;
+      if (!hit.hit) {
+        return vec3(0);
+      }
 
-        Hit hit = intersectScene(ray);
+      if (hit.material.emission.r > 0.0 || hit.material.emission.g > 0.0 || hit.material.emission.b > 0.0) {
+        return hit.material.emission;
+      }
 
-        if (!hit.hit) {
-          color += throughput * skyColor(ray);
-          break;
-        }
+      vec3 normal = hit.normal;
+      if (dot(ray.direction, normal) > 0.0) {
+        normal = -normal;
+      }
+
+      vec3 lightPos = vec3(0, 4.99, 0);
+      vec3 toLight = lightPos - hit.point;
+      float dist2 = dot(toLight, toLight);
+      vec3 lightDir = toLight / sqrt(dist2);
+      float lightDist = sqrt(dist2);
+
+      Ray shadowRay;
+      shadowRay.origin = hit.point + normal * EPSILON * 2.0;
+      shadowRay.direction = lightDir;
+      Hit shadowHit = intersectScene(shadowRay);
+
+      vec3 surfaceColor = vec3(0);
+
+      if (shadowHit.hit && shadowHit.t < lightDist) {
+        surfaceColor = hit.material.albedo * 0.05;
+      } else {
+        float NdotL = max(dot(normal, lightDir), 0.0);
+        float lightArea = 16.0;
+        float lightIntensity = 15.0;
+        vec3 radiance = hit.material.albedo * NdotL * lightIntensity * lightArea / (PI * dist2);
+        surfaceColor = radiance;
+      }
+
+      return surfaceColor;
+    }
 
         if (hit.material.emission.r > 0.0 || hit.material.emission.g > 0.0 || hit.material.emission.b > 0.0) {
           color += throughput * hit.material.emission;
@@ -363,7 +391,12 @@
       mat3 cam = setCamera(u_cameraPos, u_cameraTarget);
       vec3 rd = cam * normalize(vec3(uv, 1.5));
 
-      gl_FragColor = vec4(rd, 1.0);
+      Ray ray;
+      ray.origin = u_cameraPos;
+      ray.direction = rd;
+
+      vec3 col = trace(ray);
+      gl_FragColor = vec4(col, 1.0);
     }
   `;
 
