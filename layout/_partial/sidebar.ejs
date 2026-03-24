@@ -26,9 +26,11 @@
     </li>
     <% if (theme.social){ %>
     <% for (var i in theme.social){ %>
+    <% var icon = theme.social[i].split('||')[1] ? theme.social[i].split('||')[1].trim() : 'link'; %>
+    <% if (icon === 'envelope') icon = 'mail'; %>
     <li class="nav-item">
       <a class="nav-item-link" target="_blank" href="<%- theme.social[i].split('||')[0].trim() %>" title="<%= i %>">
-        <i class="fe fe-<%= theme.social[i].split('||')[1] ? theme.social[i].split('||')[1].trim() : 'link' %>"></i>
+        <i class="fe fe-<%= icon %>"></i>
       </a>
     </li>
     <% } %>
