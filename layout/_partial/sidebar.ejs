@@ -24,6 +24,15 @@
     <li class="nav-item">
       <%- partial('totop') %>
     </li>
+    <% if (theme.social){ %>
+    <% for (var i in theme.social){ %>
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" href="<%- theme.social[i].split('||')[0].trim() %>" title="<%= i %>">
+        <i class="fe fe-<%= theme.social[i].split('||')[1] ? theme.social[i].split('||')[1].trim() : 'link' %>"></i>
+      </a>
+    </li>
+    <% } %>
+    <% } %>
     <li class="nav-item">
       <% if (theme.rss){ %>
       <a class="nav-item-link" target="_blank" href="<%- url_for(theme.rss) %>" title="<%= __('rss_feed') %>">
