@@ -35,12 +35,41 @@
 .archive-article-header
   a
     text-decoration none
+
   .archive-article-title
     margin 0
     font-size 1.1em
   .archive-article-date
     color sea-lighter
+    line-height: 3
+    @extend $block-caption
+    &::before
+      content '\f10f'
+      margin-right .5rem
+      font-family feathericon
+      opacity .5
+  // .archive-gallery-media
+  //     width: 100%;
+  //     height: 100%;
+  //     object-fit: cover;
+  //     transform-origin: center;
+  //     transition: transform 0.3s ease;
+  // .archive-gallery-card 
+  //     position: relative;
+  //     border-radius: 16px;
+  //     overflow: hidden;
+  //     aspect-ratio: 4/3;
+  //     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  //     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  //     background: #fff;
 
+
+.archive-article-descript
+  flex-grow 1
+  width 61.8%
+  color text-color
+  line-height 1.8
+  @extend $block-caption
 .archive-article-footer
   margin-top: 1.5rem
 

@@ -11,18 +11,24 @@
   <% } %>
   <div class="archive-article-inner">
     <header class="archive-article-header">
-      <%- partial('post/title', {class_name: 'archive-article-title'}) %>
-      <%- partial('post/date', {class_name: 'archive-article-date', date_format: 'MM/DD'}) %>
+
+        <%- partial('post/title', {class_name: 'archive-article-title'}) %>
+        <%- partial('post/date', {class_name: 'archive-article-date', date_format: 'MM月DD日'}) %>
+        <%- partial('post/category') %>
+
+        <%- partial('post/tag') %>
+
+
     </header>
+
     <% if(post.photos.length === 0){ %>
-      <%- post.excerpt %>
+      <% if(post.descript != null){%>
+        <div class="archive-article-descript"><%= post.descript %></div>
+      <% } else{ %>
+      <!-- <%- post.excerpt %> -->
+      <% } %> 
     <% } %>
-    <% if(page.category){ %>
-      <%- partial('post/category') %>
-    <% } %>
-    <% if(page.tag){ %>
-      <%- partial('post/tag') %>
-    <% } %>
+    
   </div>
 
 </article>

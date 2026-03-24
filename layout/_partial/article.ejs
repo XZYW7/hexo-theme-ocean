@@ -2,6 +2,12 @@
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
+    <% if (post.feature && !index && is_post()) { %>
+    <div class="article-feature">
+      <img src="<%- url_for(post.feature) %>" alt="feature image">
+    </div>
+    <% } %>
+
     <% if (post.link || post.title){ %>
     <header class="article-header">
       <%- partial('post/title', {class_name: 'article-title'}) %>
