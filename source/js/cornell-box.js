@@ -487,7 +487,7 @@
     // Update camera position based on angles
     const radius = 15;
     cameraPos[0] = Math.sin(cameraAngleY) * Math.cos(cameraAngleX) * radius;
-    cameraPos[1] = Math.sin(cameraAngleX) * radius + 5;
+    cameraPos[1] = Math.sin(cameraAngleX) * radius + 2.5;
     cameraPos[2] = Math.cos(cameraAngleY) * Math.cos(cameraAngleX) * radius;
 
     gl.useProgram(program);
