@@ -312,11 +312,7 @@
         return vec3(0);
       }
 
-      if (hit.material.emission.r > 0.0 || hit.material.emission.g > 0.0 || hit.material.emission.b > 0.0) {
-        return hit.material.emission;
-      }
-
-      return hit.material.albedo;
+      return vec3(hit.point.y / 5.0);
     }
 
     mat3 setCamera(vec3 ro, vec3 ta) {
