@@ -8,6 +8,7 @@
     console.warn('WebGL not supported');
     return;
   }
+  console.log('WebGL context:', gl instanceof WebGL2RenderingContext ? 'WebGL2' : 'WebGL1');
 
   // Cornell box dimensions
   let WIDTH = 800;
@@ -404,7 +405,16 @@
 
   const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+  if (!vertexShader || !fragmentShader) {
+    console.error('Shader compilation failed');
+    return;
+  }
   const program = createProgram(gl, vertexShader, fragmentShader);
+  if (!program) {
+    console.error('Program creation failed');
+    return;
+  }
+  console.log('Shader compiled successfully');
 
   // Attributes and uniforms
   const positionLocation = gl.getAttribLocation(program, 'a_position');
