@@ -316,35 +316,7 @@
         return hit.material.emission;
       }
 
-      vec3 normal = hit.normal;
-      if (dot(ray.direction, normal) > 0.0) {
-        normal = -normal;
-      }
-
-      vec3 lightPos = vec3(0, 4.99, 0);
-      vec3 toLight = lightPos - hit.point;
-      float dist2 = dot(toLight, toLight);
-      vec3 lightDir = toLight / sqrt(dist2);
-      float lightDist = sqrt(dist2);
-
-      Ray shadowRay;
-      shadowRay.origin = hit.point + normal * EPSILON * 2.0;
-      shadowRay.direction = lightDir;
-      Hit shadowHit = intersectScene(shadowRay);
-
-      vec3 surfaceColor = vec3(0);
-
-      if (shadowHit.hit && shadowHit.t < lightDist) {
-        surfaceColor = hit.material.albedo * 0.05;
-      } else {
-        float NdotL = max(dot(normal, lightDir), 0.0);
-        float lightArea = 16.0;
-        float lightIntensity = 15.0;
-        vec3 radiance = hit.material.albedo * NdotL * lightIntensity * lightArea / (PI * dist2);
-        surfaceColor = radiance;
-      }
-
-      return surfaceColor;
+      return hit.material.albedo;
     }
 
     mat3 setCamera(vec3 ro, vec3 ta) {
