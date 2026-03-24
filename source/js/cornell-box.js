@@ -10,8 +10,8 @@
   }
 
   // Cornell box dimensions
-  const WIDTH = 800;
-  const HEIGHT = 600;
+  let WIDTH = 800;
+  let HEIGHT = 600;
   const SAMPLES_PER_FRAME = 2;
   const MAX_BOUNCES = 5;
 
@@ -423,12 +423,20 @@
 
   // Resize canvas
   function resize() {
+    const container = canvas.parentElement;
     const dpr = window.devicePixelRatio || 1;
+    WIDTH = Math.floor(container.clientWidth * dpr);
+    HEIGHT = Math.floor(container.clientHeight * dpr);
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
+    canvas.style.width = container.clientWidth + 'px';
+    canvas.style.height = container.clientHeight + 'px';
     gl.viewport(0, 0, canvas.width, canvas.height);
+    needsReset = true;
+    sampleCount = 0;
   }
   resize();
+  window.addEventListener('resize', resize);
 
   // Mouse events
   canvas.addEventListener('mousedown', (e) => {
