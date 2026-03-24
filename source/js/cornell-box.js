@@ -316,7 +316,7 @@
     }
 
     mat3 setCamera(vec3 ro, vec3 ta) {
-      vec3 cw = normalize(ta - ro);
+      vec3 cw = normalize(ro - ta);
       vec3 up = vec3(0, 1, 0);
       vec3 cu = normalize(cross(cw, up));
       vec3 cv = normalize(cross(cu, cw));
