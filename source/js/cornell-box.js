@@ -328,7 +328,17 @@
     }
 
     void main() {
-      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
+
+      mat3 cam = setCamera(u_cameraPos, u_cameraTarget);
+      vec3 rd = cam * normalize(vec3(uv, 1.5));
+
+      Ray ray;
+      ray.origin = u_cameraPos;
+      ray.direction = rd;
+
+      vec3 col = trace(ray);
+      gl_FragColor = vec4(col, 1.0);
     }
   `;
 
