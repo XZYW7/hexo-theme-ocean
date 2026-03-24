@@ -363,6 +363,12 @@
 
       vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
 
+      // Test: simple checkerboard
+      vec2 checker = floor(uv * 20.0);
+      float c = mod(checker.x + checker.y, 2.0);
+      gl_FragColor = vec4(c, c, c, 1.0);
+      return;
+
       mat3 ca = setCamera(u_cameraPos, u_cameraTarget);
       vec3 rd = ca * normalize(vec3(uv, 1.5));
 
