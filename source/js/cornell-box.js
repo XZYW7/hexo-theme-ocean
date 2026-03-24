@@ -312,7 +312,16 @@
         return vec3(0);
       }
 
-      return hit.normal * 0.5 + 0.5;
+      if (hit.t > 1000.0) {
+        return vec3(1, 0, 0);
+      }
+      if (hit.t > 500.0) {
+        return vec3(0, 1, 0);
+      }
+      if (hit.t > 100.0) {
+        return vec3(0, 0, 1);
+      }
+      return vec3(1, 1, 1);
     }
 
     mat3 setCamera(vec3 ro, vec3 ta) {
