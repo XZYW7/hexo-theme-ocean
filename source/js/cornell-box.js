@@ -363,22 +363,24 @@
 
       vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
 
-      // Test: gradient instead of checkerboard
-      float g = uv.x * 0.5 + 0.5;
-      gl_FragColor = vec4(g, g, g, 1.0);
-      return;
-
-      mat3 ca = setCamera(u_cameraPos, u_cameraTarget);
-      vec3 rd = ca * normalize(vec3(uv, 1.5));
-
-      Ray ray;
-      ray.origin = u_cameraPos;
-      ray.direction = rd;
-
-      vec3 color = trace(ray);
-      color = clamp(color, 0.0, 1.0);
-
-      gl_FragColor = vec4(color, 1.0);
+      // Simple floor test - just render a gray floor
+      vec3 ro = u_cameraPos;
+      vec3 rd = normalize(vec3(uv, 1.5));
+      
+      // Floor at y = 0
+      if (abs(rd.y) > 0.001) {
+        float t = -ro.y / rd.y;
+        if (t > 0.0) {
+          vec3 p = ro + t * rd;
+          if (p.x > -5.0 && p.x < 5.0 && p.z > -5.0 && p.z < 5.0) {
+            gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+            return;
+          }
+        }
+      }
+      
+      // Sky black
+      gl_FragColor = vec4(0, 0, 0, 1.0);
     }
   `;
 
