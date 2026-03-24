@@ -347,36 +347,6 @@
       return surfaceColor;
     }
 
-        if (hit.material.emission.r > 0.0 || hit.material.emission.g > 0.0 || hit.material.emission.b > 0.0) {
-          color += throughput * hit.material.emission;
-          break;
-        }
-
-        vec3 normal = hit.normal;
-        if (dot(ray.direction, normal) > 0.0) {
-          normal = -normal;
-        }
-
-        // Diffuse
-        vec3 target = hit.point + normal + randomCosineDirection();
-        vec3 newDir = normalize(target - hit.point);
-        float pdf = max(dot(newDir, normal) / PI, EPSILON);
-
-        throughput *= hit.material.albedo * dot(newDir, normal) / pdf;
-        ray.origin = hit.point + normal * EPSILON * 2.0;
-        ray.direction = newDir;
-
-        // Russian roulette
-        if (bounce > 2) {
-          float p = max(throughput.r, max(throughput.g, throughput.b));
-          if (random() > p) break;
-          throughput /= p;
-        }
-      }
-
-      return color;
-    }
-
     mat3 setCamera(vec3 ro, vec3 ta) {
       vec3 cw = normalize(ta - ro);
       vec3 up = vec3(0, 1, 0);
