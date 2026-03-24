@@ -424,14 +424,20 @@
   // Resize canvas
   function resize() {
     const container = canvas.parentElement;
+    if (!container || container.clientWidth === 0) {
+      console.log('Cornell: container not ready, retrying...');
+      requestAnimationFrame(resize);
+      return;
+    }
     const dpr = window.devicePixelRatio || 1;
-    WIDTH = Math.floor(container.clientWidth * dpr);
-    HEIGHT = Math.floor(container.clientHeight * dpr);
+    WIDTH = Math.floor(container.clientWidth * dpr) || 800;
+    HEIGHT = Math.floor(container.clientHeight * dpr) || 600;
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
-    canvas.style.width = container.clientWidth + 'px';
-    canvas.style.height = container.clientHeight + 'px';
+    canvas.style.width = (container.clientWidth || 800) + 'px';
+    canvas.style.height = (container.clientHeight || 600) + 'px';
     gl.viewport(0, 0, canvas.width, canvas.height);
+    console.log('Cornell: initialized', WIDTH, 'x', HEIGHT);
     needsReset = true;
     sampleCount = 0;
   }
