@@ -312,7 +312,7 @@
         return vec3(0);
       }
 
-      return vec3(hit.point.y / 5.0);
+      return hit.normal * 0.5 + 0.5;
     }
 
     mat3 setCamera(vec3 ro, vec3 ta) {
