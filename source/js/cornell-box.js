@@ -284,7 +284,7 @@
       // Light (ceiling area light)
       if (abs(ray.direction.y) > EPSILON) {
         t = (5.0 - ray.origin.y) / ray.direction.y;
-        if (t > EPSILON && t < hit.t) {
+        if (t > EPSILON && t <= hit.t) {
           vec3 p = ray.origin + t * ray.direction;
           if (p.x >= -2.0 && p.x <= 2.0 && p.z >= -2.0 && p.z <= 2.0) {
             hit.t = t;
